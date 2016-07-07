@@ -1,0 +1,67 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-",
+  cache.path = "README-cache/",
+  cache = TRUE,
+  message = FALSE
+)
+```
+
+## United Nations General Assembly Voting Data
+
+This data comes from the United Nations voting dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379). Citation:
+
+Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
+
+The data processing occurs in the [data-raw](data-raw) folder.
+
+### Datasets
+
+```{r}
+library(ungavotes)
+
+un_votes
+
+un_roll_calls
+
+un_roll_call_issues
+```
+
+### Example analysis
+
+```{r by_country_year}
+library(dplyr)
+library(lubridate)
+
+by_country_year <- un_votes %>%
+  inner_join(un_roll_calls, by = c("session", "rcid")) %>%
+  group_by(year = year(date), country) %>%
+  summarize(votes = n(),
+            percent_yes = mean(vote == 1))
+
+by_country_year
+```
+
+After which this can be visualized for one or more countries:
+
+```{r dependson = "by_country_year"}
+library(ggplot2)
+theme_set(theme_bw())
+
+countries <- c("United States", "United Kingdom", "China", "France")
+
+by_country_year %>%
+  filter(country %in% countries) %>%
+  ggplot(aes(year, percent_yes)) +
+  geom_line() +
+  facet_wrap(~ country) +
+  ylab("% of votes that are 'yes'")
+```
+
+### Code of Conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

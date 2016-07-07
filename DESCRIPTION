@@ -1,0 +1,20 @@
+Package: ungavotes
+Type: Package
+Title: United Nations General Assembly Voting Data
+Version: 0.1.0
+Authors@R: person("David", "Robinson", email = "admiral.david@gmail.com", role = c("aut", "cre"))
+Description: Historical voting data of the United Nations General Assembly,
+    This includes all country votes by roll call, as well as descriptions and
+    topic classifications for each vote.
+License: MIT + file LICENSE
+LazyData: TRUE
+Authors: David Robinson <admiral.david@gmail.com> [aut, cre]
+URL: http://github.com/dgrtwo/ungavotes
+VignetteBuilder: knitr
+BugReports: http://github.com/dgrtwo/ungavotes/issues
+Suggests: knitr,
+    dplyr,
+    readxl,
+    countrycode,
+    tidyr,
+    devtools
