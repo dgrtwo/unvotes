@@ -8,7 +8,7 @@
 #' \describe{
 #'   \item{rcid}{The roll call id; used to join with \code{\link{un_roll_calls}}
 #'   and \code{\link{un_roll_call_issues}}}
-#'   \item{vote}{Vote result, with 1 = yes, 2 = abstain, and 3 = no}
+#'   \item{vote}{Vote result as a factor of yes/abstain/no}
 #'   \item{country}{Country name, by official English short name (ISO)}
 #' }
 #'

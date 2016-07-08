@@ -9,7 +9,8 @@ un_votes <- x %>%
   tbl_df() %>%
   filter(vote <= 3) %>%
   mutate(country = countrycode(ccode, "cown", "country.name")) %>%
-  select(-ccode, -session)
+  select(rcid, country, vote) %>%
+  mutate(vote = factor(c("yes", "abstain", "no")[vote]))
 
 devtools::use_data(un_votes, overwrite = TRUE)
 
@@ -33,6 +34,7 @@ un_roll_call_issues <- descriptions_raw %>%
                         nu = "Nuclear weapons and nuclear material",
                         co = "Colonialism",
                         hr = "Human rights",
-                        ec = "Economic development"))
+                        ec = "Economic development",
+                        di = "Arms control and disarmament"))
 
 devtools::use_data(un_roll_call_issues, overwrite = TRUE)

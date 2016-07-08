@@ -4,13 +4,17 @@
 
 ## United Nations General Assembly Voting Data
 
-This data comes from the United Nations voting dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379). Citation:
+This package provides the voting history of countries in the [United Nations General Assembly](http://www.un.org/en/ga/), along with information such as date, description, and topics for each vote.
+
+These come from the dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379):
 
 Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
 
-The data processing occurs in the [data-raw](data-raw) folder.
+This raw data, and the processing script, can be found in the [data-raw](data-raw) folder.
 
 ### Datasets
+
+The package contains three datasets. First is the history of each vote for each country:
 
 
 ```r
@@ -32,7 +36,12 @@ un_votes
 #> 9      3     1   Argentina
 #> 10     3     1       Haiti
 #> ..   ...   ...         ...
+```
 
+
+
+
+```r
 un_roll_calls
 #> Source: local data frame [5,356 x 9]
 #> 
@@ -50,7 +59,12 @@ un_roll_calls
 #> 10    12       1             0 1946-02-06 R/1/394     1     1
 #> ..   ...     ...           ...        ...     ...   ...   ...
 #> Variables not shown: short <chr>, descr <chr>.
+```
 
+Finally, there is a dataset with connections of each vote to 6 issues:
+
+
+```r
 un_roll_call_issues
 #> Source: local data frame [4,951 x 3]
 #> 
@@ -67,25 +81,67 @@ un_roll_call_issues
 #> 9    128         me Palestinian conflict
 #> 10   129         me Palestinian conflict
 #> ..   ...        ...                  ...
+
+library(dplyr)
+count(un_roll_call_issues, issue, sort = TRUE)
+#> Source: local data frame [6 x 2]
+#> 
+#>                                  issue     n
+#>                                  <chr> <int>
+#> 1                 Palestinian conflict  1047
+#> 2                          Colonialism   971
+#> 3                         Human rights   901
+#> 4         Arms control and disarmament   859
+#> 5 Nuclear weapons and nuclear material   712
+#> 6                 Economic development   461
 ```
 
+(Use `help()` to get information and documentation about each dataset).
+
 ### Example analysis
+
+Many useful analyses will first involve joining the vote and roll call datasets by the shared `rcid` (roll call ID) column:
 
 
 ```r
 library(dplyr)
+
+joined <- un_votes %>%
+  inner_join(un_roll_calls, by = "rcid")
+
+joined
+#> Source: local data frame [711,275 x 11]
+#> 
+#>     rcid  vote     country session importantvote       date  unres amend
+#>    <dbl> <dbl>       <chr>   <dbl>         <dbl>     <date>  <chr> <dbl>
+#> 1      3     2       Egypt       1             0 1946-01-01 R/1/66     1
+#> 2      3     1    Honduras       1             0 1946-01-01 R/1/66     1
+#> 3      3     1  Costa Rica       1             0 1946-01-01 R/1/66     1
+#> 4      3     1 El Salvador       1             0 1946-01-01 R/1/66     1
+#> 5      3     3      France       1             0 1946-01-01 R/1/66     1
+#> 6      3     1     Uruguay       1             0 1946-01-01 R/1/66     1
+#> 7      3     1       Chile       1             0 1946-01-01 R/1/66     1
+#> 8      3     1     Ecuador       1             0 1946-01-01 R/1/66     1
+#> 9      3     1   Argentina       1             0 1946-01-01 R/1/66     1
+#> 10     3     1       Haiti       1             0 1946-01-01 R/1/66     1
+#> ..   ...   ...         ...     ...           ...        ...    ...   ...
+#> Variables not shown: para <dbl>, short <chr>, descr <chr>.
+```
+
+One could then count how often each country votes "yes" on a resolution in each year:
+
+
+```r
 library(lubridate)
 
-by_country_year <- un_votes %>%
-  inner_join(un_roll_calls, by = c("session", "rcid")) %>%
+by_country_year <- joined %>%
   group_by(year = year(date), country) %>%
   summarize(votes = n(),
             percent_yes = mean(vote == 1))
-#> Error in eval(expr, envir, enclos): 'session' column not found in lhs, cannot join
 
 by_country_year
 #> Source: local data frame [9,496 x 4]
-#> Groups: year [68]
+#> Groups: year [?]
 #> 
 #>     year                         country votes percent_yes
 #>    <dbl>                           <chr> <int>       <dbl>
@@ -109,17 +165,17 @@ After which this can be visualized for one or more countries:
 library(ggplot2)
 theme_set(theme_bw())
 
-countries <- c("United States", "United Kingdom", "China", "France")
+countries <- c("United States", "United Kingdom", "India", "France")
 
+# there were fewer votes in 2013
 by_country_year %>%
-  filter(country %in% countries) %>%
-  ggplot(aes(year, percent_yes)) +
+  filter(country %in% countries, year <= 2013) %>%
+  ggplot(aes(year, percent_yes, color = country)) +
   geom_line() +
-  facet_wrap(~ country) +
-  ylab("% of votes that are 'yes'")
+  ylab("% of votes that are 'Yes'")
 ```
 
-![plot of chunk unnamed-chunk-3](README-unnamed-chunk-3-1.png)
+![plot of chunk by_country_year_plot](README-by_country_year_plot-1.png)
 
 ### Code of Conduct
 

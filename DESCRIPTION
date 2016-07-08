@@ -1,4 +1,4 @@
-Package: ungavotes
+Package: unvotes
 Type: Package
 Title: United Nations General Assembly Voting Data
 Version: 0.1.0
@@ -8,7 +8,6 @@ Description: Historical voting data of the United Nations General Assembly. This
     topic classifications for each vote.
 License: MIT + file LICENSE
 LazyData: TRUE
-Authors: David Robinson <admiral.david@gmail.com> [aut, cre]
 URL: http://github.com/dgrtwo/ungavotes
 VignetteBuilder: knitr
 BugReports: http://github.com/dgrtwo/ungavotes/issues
@@ -20,5 +19,6 @@ Suggests:
     countrycode,
     tidyr,
     lubridate,
-    devtools
+    devtools,
+    rmarkdown
 RoxygenNote: 5.0.1

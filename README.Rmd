@@ -13,53 +13,89 @@ knitr::opts_chunk$set(
 
 ## United Nations General Assembly Voting Data
 
-This data comes from the United Nations voting dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379). Citation:
+This package provides the voting history of countries in the [United Nations General Assembly](http://www.un.org/en/ga/), along with information such as date, description, and topics for each vote.
+
+These come from the dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379):
 
 Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
 
-The data processing occurs in the [data-raw](data-raw) folder.
+This raw data, and the processing script, can be found in the [data-raw](data-raw) folder.
+
+### Installation
+
+Install the package using [devtools](https://github.com/hadley/devtools) with:
+
+```{r eval = FALSE}
+devtools::install_github("dgrtwo/unvotes")
+```
 
 ### Datasets
 
+The package contains three datasets. First is the history of each country's vote. These are represented in the `un_votes` dataset, with one row for each country-roll call pair:
+
 ```{r}
-library(ungavotes)
+library(unvotes)
 
 un_votes
-
-un_roll_calls
-
-un_roll_call_issues
 ```
+
+The package also contains a dataset of information about each 
+
+```{r}
+un_roll_calls
+```
+
+Finally, there is a dataset with connections of each vote to 6 issues:
+
+```{r}
+un_roll_call_issues
+
+library(dplyr)
+count(un_roll_call_issues, issue, sort = TRUE)
+```
+
+(Use `help()` to get information and documentation about each dataset).
 
 ### Example analysis
 
-```{r by_country_year}
+Many useful analyses will first involve joining the vote and roll call datasets by the shared `rcid` (roll call ID) column:
+
+```{r joined}
 library(dplyr)
+
+joined <- un_votes %>%
+  inner_join(un_roll_calls, by = "rcid")
+
+joined
+```
+
+One could then count how often each country votes "yes" on a resolution in each year:
+
+```{r by_country_year, dependson = "joined"}
 library(lubridate)
 
-by_country_year <- un_votes %>%
-  inner_join(un_roll_calls, by = c("session", "rcid")) %>%
+by_country_year <- joined %>%
   group_by(year = year(date), country) %>%
   summarize(votes = n(),
-            percent_yes = mean(vote == 1))
+            percent_yes = mean(vote == "yes"))
 
 by_country_year
 ```
 
 After which this can be visualized for one or more countries:
 
-```{r dependson = "by_country_year"}
+```{r by_country_year_plot, dependson = "by_country_year"}
 library(ggplot2)
 theme_set(theme_bw())
 
-countries <- c("United States", "United Kingdom", "China", "France")
+countries <- c("United States", "United Kingdom", "India", "France")
 
+# there were fewer votes in 2013
 by_country_year %>%
-  filter(country %in% countries) %>%
-  ggplot(aes(year, percent_yes)) +
+  filter(country %in% countries, year <= 2013) %>%
+  ggplot(aes(year, percent_yes, color = country)) +
   geom_line() +
-  facet_wrap(~ country) +
-  ylab("% of votes that are 'yes'")
+  ylab("% of votes that are 'Yes'")
 ```
 
 ### Code of Conduct
