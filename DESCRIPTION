@@ -12,6 +12,7 @@ Authors: David Robinson <admiral.david@gmail.com> [aut, cre]
 URL: http://github.com/dgrtwo/ungavotes
 VignetteBuilder: knitr
 BugReports: http://github.com/dgrtwo/ungavotes/issues
+Depends: R (>= 2.10)
 Suggests:
     knitr,
     dplyr,
