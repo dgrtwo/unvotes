@@ -4,11 +4,13 @@
 
 ## United Nations General Assembly Voting Data
 
+[![Travis-CI Build Status](https://travis-ci.org/dgrtwo/unvotes.svg?branch=master)](https://travis-ci.org/dgrtwo/unvotes)
+
 This package provides the voting history of countries in the [United Nations General Assembly](http://www.un.org/en/ga/), along with information such as date, description, and topics for each vote.
 
 These come from the dataset [found here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379):
 
-Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
+> Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge Handbook of International Organization, edited by Bob Reinalda (published May 27, 2013)
 
 This raw data, and the processing script, can be found in the [data-raw](data-raw) folder.
 
@@ -23,18 +25,32 @@ devtools::install_github("dgrtwo/unvotes")
 
 ### Datasets
 
-The package contains three datasets. First is the history of each country's vote. These are represented in the `un_votes` dataset, with one row for each country-roll call pair:
+The package contains three datasets. First is the history of each country's vote. These are represented in the `un_votes` dataset, with one row for each country/vote pair:
 
 
 ```r
+library(dplyr)
 library(unvotes)
-#> Error in library(unvotes): there is no package called 'unvotes'
 
 un_votes
-#> Error in eval(expr, envir, enclos): object 'un_votes' not found
+#> Source: local data frame [711,275 x 3]
+#> 
+#>     rcid     country    vote
+#>    <dbl>       <chr>  <fctr>
+#> 1      3       Egypt abstain
+#> 2      3    Honduras     yes
+#> 3      3  Costa Rica     yes
+#> 4      3 El Salvador     yes
+#> 5      3      France      no
+#> 6      3     Uruguay     yes
+#> 7      3       Chile     yes
+#> 8      3     Ecuador     yes
+#> 9      3   Argentina     yes
+#> 10     3       Haiti     yes
+#> ..   ...         ...     ...
 ```
 
-The package also contains a dataset of information about each 
+The package also contains a dataset of information about each roll call vote, including the date, description, and relevant resolution that was voted on:
 
 
 ```r
@@ -42,16 +58,38 @@ un_roll_calls
 #> Error in eval(expr, envir, enclos): object 'un_roll_calls' not found
 ```
 
-Finally, there is a dataset with connections of each vote to 6 issues:
+Finally, the `un_roll_call_issues` dataset shows relationships betwen each vote and 6 issues:
 
 
 ```r
 un_roll_call_issues
-#> Error in eval(expr, envir, enclos): object 'un_roll_call_issues' not found
+#> Source: local data frame [4,951 x 3]
+#> 
+#>     rcid short_name                issue
+#>    <dbl>      <chr>                <chr>
+#> 1     30         me Palestinian conflict
+#> 2     34         me Palestinian conflict
+#> 3     77         me Palestinian conflict
+#> 4   9002         me Palestinian conflict
+#> 5   9003         me Palestinian conflict
+#> 6   9004         me Palestinian conflict
+#> 7   9005         me Palestinian conflict
+#> 8   9006         me Palestinian conflict
+#> 9    128         me Palestinian conflict
+#> 10   129         me Palestinian conflict
+#> ..   ...        ...                  ...
 
-library(dplyr)
 count(un_roll_call_issues, issue, sort = TRUE)
-#> Error in group_by_(x, .dots = vars, add = TRUE): object 'un_roll_call_issues' not found
+#> Source: local data frame [6 x 2]
+#> 
+#>                                  issue     n
+#>                                  <chr> <int>
+#> 1                 Palestinian conflict  1047
+#> 2                          Colonialism   971
+#> 3                         Human rights   901
+#> 4         Arms control and disarmament   859
+#> 5 Nuclear weapons and nuclear material   712
+#> 6                 Economic development   461
 ```
 
 (Use `help()` to get information and documentation about each dataset).
@@ -105,6 +143,26 @@ by_country_year %>%
   ylab("% of votes that are 'Yes'")
 #> Error in eval(expr, envir, enclos): object 'by_country_year' not found
 ```
+
+
+Similarly, we could look at how the voting record of the United States has changed on each of the issues by joining with the `un_roll_call_issues` dataset:
+
+
+```r
+joined %>%
+  filter(country == "United States") %>%
+  inner_join(un_roll_call_issues, by = "rcid") %>%
+  group_by(year = year(date), issue) %>%
+  summarize(votes = n(),
+            percent_yes = mean(vote == "yes")) %>%
+  filter(votes > 5) %>%
+  ggplot(aes(year, percent_yes)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~ issue)
+```
+
+![plot of chunk issue_plot](README-issue_plot-1.png)
 
 ### Code of Conduct
 

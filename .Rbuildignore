@@ -5,3 +5,4 @@
 ^README-.*\.png$
 README-cache/
 data-raw
+^\.travis\.yml$
