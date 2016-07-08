@@ -20,5 +20,6 @@ Suggests:
     tidyr,
     lubridate,
     devtools,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 RoxygenNote: 5.0.1
