@@ -127,10 +127,24 @@ library(dplyr)
 
 joined <- un_votes %>%
   inner_join(un_roll_calls, by = "rcid")
-#> Error in eval(expr, envir, enclos): object 'un_votes' not found
 
 joined
-#> Error in eval(expr, envir, enclos): object 'joined' not found
+#> Source: local data frame [711,275 x 11]
+#> 
+#>     rcid     country    vote session importantvote       date  unres amend
+#>    <dbl>       <chr>  <fctr>   <dbl>         <dbl>     <date>  <chr> <dbl>
+#> 1      3       Egypt abstain       1             0 1946-01-01 R/1/66     1
+#> 2      3    Honduras     yes       1             0 1946-01-01 R/1/66     1
+#> 3      3  Costa Rica     yes       1             0 1946-01-01 R/1/66     1
+#> 4      3 El Salvador     yes       1             0 1946-01-01 R/1/66     1
+#> 5      3      France      no       1             0 1946-01-01 R/1/66     1
+#> 6      3     Uruguay     yes       1             0 1946-01-01 R/1/66     1
+#> 7      3       Chile     yes       1             0 1946-01-01 R/1/66     1
+#> 8      3     Ecuador     yes       1             0 1946-01-01 R/1/66     1
+#> 9      3   Argentina     yes       1             0 1946-01-01 R/1/66     1
+#> 10     3       Haiti     yes       1             0 1946-01-01 R/1/66     1
+#> ..   ...         ...     ...     ...           ...        ...    ...   ...
+#> Variables not shown: para <dbl>, short <chr>, descr <chr>.
 ```
 
 One could then count how often each country votes "yes" on a resolution in each year:
@@ -143,10 +157,24 @@ by_country_year <- joined %>%
   group_by(year = year(date), country) %>%
   summarize(votes = n(),
             percent_yes = mean(vote == "yes"))
-#> Error in eval(expr, envir, enclos): object 'joined' not found
 
 by_country_year
-#> Error in eval(expr, envir, enclos): object 'by_country_year' not found
+#> Source: local data frame [9,496 x 4]
+#> Groups: year [?]
+#> 
+#>     year                         country votes percent_yes
+#>    <dbl>                           <chr> <int>       <dbl>
+#> 1   1946                     Afghanistan    17   0.4117647
+#> 2   1946                       Argentina    43   0.6976744
+#> 3   1946                       Australia    43   0.5581395
+#> 4   1946                         Belarus    43   0.4418605
+#> 5   1946                         Belgium    43   0.6046512
+#> 6   1946 Bolivia, Plurinational State of    43   0.6976744
+#> 7   1946                          Brazil    43   0.6046512
+#> 8   1946                          Canada    42   0.6428571
+#> 9   1946                           Chile    43   0.6046512
+#> 10  1946                        Colombia    42   0.3095238
+#> ..   ...                             ...   ...         ...
 ```
 
 After which this can be visualized for one or more countries:
@@ -164,8 +192,9 @@ by_country_year %>%
   ggplot(aes(year, percent_yes, color = country)) +
   geom_line() +
   ylab("% of votes that are 'Yes'")
-#> Error in eval(expr, envir, enclos): object 'by_country_year' not found
 ```
+
+![plot of chunk by_country_year_plot](README-by_country_year_plot-1.png)
 
 Similarly, we could look at how the voting record of the United States has changed on each of the issues by joining with the `un_roll_call_issues` dataset:
 
