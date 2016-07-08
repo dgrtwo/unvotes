@@ -65,12 +65,13 @@
 #' \describe{
 #'   \item{rcid}{The roll call id; used to join with \code{\link{un_votes}}
 #'   and \code{\link{un_roll_call_issues}}}
-#'   \item{vote}{Session number. The UN holds one session per year; these
+#'   \item{session}{Session number. The UN holds one session per year; these
 #'   started in 1946}
 #'   \item{importantvote}{Whether the vote was classified as important by the
 #'   U.S. State Department report "Voting Practices in the United Nations".
 #'   These classifications began with session 39}
 #'   \item{date}{Date of the vote, as a Date vector}
+#'   \item{unres}{Resolution code}
 #'   \item{amend}{Whether the vote was on an amendment; coded only until
 #'   1985}
 #'   \item{para}{Whether the vote was only on a paragraph and not a resolution;
@@ -84,6 +85,8 @@
 #' \code{\link{un_votes}} dataset)
 #'
 #' @examples
+#'
+#' library(dplyr)
 #'
 #' # combine with per-country-vote information
 #' un_votes %>%
