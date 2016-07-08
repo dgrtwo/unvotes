@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 
 ## United Nations General Assembly Voting Data
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/unvotes)](https://cran.r-project.org/package=unvotes)
 [![Travis-CI Build Status](https://travis-ci.org/dgrtwo/unvotes.svg?branch=master)](https://travis-ci.org/dgrtwo/unvotes)
 
 This package provides the voting history of countries in the [United Nations General Assembly](http://www.un.org/en/ga/), along with information such as date, description, and topics for each vote.
