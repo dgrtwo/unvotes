@@ -26,7 +26,13 @@ This raw data, and the processing script, can be found in the [data-raw](data-ra
 
 ### Installation
 
-Install the package using [devtools](https://github.com/hadley/devtools) with:
+Install the package with:
+
+```{r eval = FALSE}
+install.packages("unvotes")
+```
+
+You can also install the development version of the package using [devtools](https://github.com/hadley/devtools):
 
 ```{r eval = FALSE}
 devtools::install_github("dgrtwo/unvotes")
@@ -100,7 +106,6 @@ by_country_year %>%
   geom_line() +
   ylab("% of votes that are 'Yes'")
 ```
-
 
 Similarly, we could look at how the voting record of the United States has changed on each of the issues by joining with the `un_roll_call_issues` dataset:
 

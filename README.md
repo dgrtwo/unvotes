@@ -17,7 +17,14 @@ This raw data, and the processing script, can be found in the [data-raw](data-ra
 
 ### Installation
 
-Install the package using [devtools](https://github.com/hadley/devtools) with:
+Install the package with:
+
+
+```r
+install.packages("unvotes")
+```
+
+You can also install the development version of the package using [devtools](https://github.com/hadley/devtools):
 
 
 ```r
@@ -56,7 +63,22 @@ The package also contains a dataset of information about each roll call vote, in
 
 ```r
 un_roll_calls
-#> Error in eval(expr, envir, enclos): object 'un_roll_calls' not found
+#> Source: local data frame [5,356 x 9]
+#> 
+#>     rcid session importantvote       date   unres amend  para
+#>    <dbl>   <dbl>         <dbl>     <date>   <chr> <dbl> <dbl>
+#> 1      3       1             0 1946-01-01  R/1/66     1     0
+#> 2      4       1             0 1946-01-02  R/1/79     0     0
+#> 3      5       1             0 1946-01-04  R/1/98     0     0
+#> 4      6       1             0 1946-01-04 R/1/107     0     0
+#> 5      7       1             0 1946-01-02 R/1/295     1     0
+#> 6      8       1             0 1946-01-05 R/1/297     1     0
+#> 7      9       1             0 1946-02-05 R/1/329     0     0
+#> 8     10       1             0 1946-02-05 R/1/361     1     1
+#> 9     11       1             0 1946-02-05 R/1/376     0     0
+#> 10    12       1             0 1946-02-06 R/1/394     1     1
+#> ..   ...     ...           ...        ...     ...   ...   ...
+#> Variables not shown: short <chr>, descr <chr>.
 ```
 
 Finally, the `un_roll_call_issues` dataset shows relationships betwen each vote and 6 issues:
@@ -144,7 +166,6 @@ by_country_year %>%
   ylab("% of votes that are 'Yes'")
 #> Error in eval(expr, envir, enclos): object 'by_country_year' not found
 ```
-
 
 Similarly, we could look at how the voting record of the United States has changed on each of the issues by joining with the `un_roll_call_issues` dataset:
 
