@@ -12,53 +12,34 @@ Erik Voeten "Data and Analyses of Voting in the UN General Assembly" Routledge H
 
 This raw data, and the processing script, can be found in the [data-raw](data-raw) folder.
 
-### Datasets
+### Installation
 
-The package contains three datasets. First is the history of each vote for each country:
+Install the package using [devtools](https://github.com/hadley/devtools) with:
 
 
 ```r
-library(ungavotes)
-
-un_votes
-#> Source: local data frame [711,275 x 3]
-#> 
-#>     rcid  vote     country
-#>    <dbl> <dbl>       <chr>
-#> 1      3     2       Egypt
-#> 2      3     1    Honduras
-#> 3      3     1  Costa Rica
-#> 4      3     1 El Salvador
-#> 5      3     3      France
-#> 6      3     1     Uruguay
-#> 7      3     1       Chile
-#> 8      3     1     Ecuador
-#> 9      3     1   Argentina
-#> 10     3     1       Haiti
-#> ..   ...   ...         ...
+devtools::install_github("dgrtwo/unvotes")
 ```
 
+### Datasets
 
+The package contains three datasets. First is the history of each country's vote. These are represented in the `un_votes` dataset, with one row for each country-roll call pair:
+
+
+```r
+library(unvotes)
+#> Error in library(unvotes): there is no package called 'unvotes'
+
+un_votes
+#> Error in eval(expr, envir, enclos): object 'un_votes' not found
+```
+
+The package also contains a dataset of information about each 
 
 
 ```r
 un_roll_calls
-#> Source: local data frame [5,356 x 9]
-#> 
-#>     rcid session importantvote       date   unres amend  para
-#>    <dbl>   <dbl>         <dbl>     <date>   <chr> <dbl> <dbl>
-#> 1      3       1             0 1946-01-01  R/1/66     1     0
-#> 2      4       1             0 1946-01-02  R/1/79     0     0
-#> 3      5       1             0 1946-01-04  R/1/98     0     0
-#> 4      6       1             0 1946-01-04 R/1/107     0     0
-#> 5      7       1             0 1946-01-02 R/1/295     1     0
-#> 6      8       1             0 1946-01-05 R/1/297     1     0
-#> 7      9       1             0 1946-02-05 R/1/329     0     0
-#> 8     10       1             0 1946-02-05 R/1/361     1     1
-#> 9     11       1             0 1946-02-05 R/1/376     0     0
-#> 10    12       1             0 1946-02-06 R/1/394     1     1
-#> ..   ...     ...           ...        ...     ...   ...   ...
-#> Variables not shown: short <chr>, descr <chr>.
+#> Error in eval(expr, envir, enclos): object 'un_roll_calls' not found
 ```
 
 Finally, there is a dataset with connections of each vote to 6 issues:
@@ -66,34 +47,11 @@ Finally, there is a dataset with connections of each vote to 6 issues:
 
 ```r
 un_roll_call_issues
-#> Source: local data frame [4,951 x 3]
-#> 
-#>     rcid short_name                issue
-#>    <dbl>      <chr>                <chr>
-#> 1     30         me Palestinian conflict
-#> 2     34         me Palestinian conflict
-#> 3     77         me Palestinian conflict
-#> 4   9002         me Palestinian conflict
-#> 5   9003         me Palestinian conflict
-#> 6   9004         me Palestinian conflict
-#> 7   9005         me Palestinian conflict
-#> 8   9006         me Palestinian conflict
-#> 9    128         me Palestinian conflict
-#> 10   129         me Palestinian conflict
-#> ..   ...        ...                  ...
+#> Error in eval(expr, envir, enclos): object 'un_roll_call_issues' not found
 
 library(dplyr)
 count(un_roll_call_issues, issue, sort = TRUE)
-#> Source: local data frame [6 x 2]
-#> 
-#>                                  issue     n
-#>                                  <chr> <int>
-#> 1                 Palestinian conflict  1047
-#> 2                          Colonialism   971
-#> 3                         Human rights   901
-#> 4         Arms control and disarmament   859
-#> 5 Nuclear weapons and nuclear material   712
-#> 6                 Economic development   461
+#> Error in group_by_(x, .dots = vars, add = TRUE): object 'un_roll_call_issues' not found
 ```
 
 (Use `help()` to get information and documentation about each dataset).
@@ -108,24 +66,10 @@ library(dplyr)
 
 joined <- un_votes %>%
   inner_join(un_roll_calls, by = "rcid")
+#> Error in eval(expr, envir, enclos): object 'un_votes' not found
 
 joined
-#> Source: local data frame [711,275 x 11]
-#> 
-#>     rcid  vote     country session importantvote       date  unres amend
-#>    <dbl> <dbl>       <chr>   <dbl>         <dbl>     <date>  <chr> <dbl>
-#> 1      3     2       Egypt       1             0 1946-01-01 R/1/66     1
-#> 2      3     1    Honduras       1             0 1946-01-01 R/1/66     1
-#> 3      3     1  Costa Rica       1             0 1946-01-01 R/1/66     1
-#> 4      3     1 El Salvador       1             0 1946-01-01 R/1/66     1
-#> 5      3     3      France       1             0 1946-01-01 R/1/66     1
-#> 6      3     1     Uruguay       1             0 1946-01-01 R/1/66     1
-#> 7      3     1       Chile       1             0 1946-01-01 R/1/66     1
-#> 8      3     1     Ecuador       1             0 1946-01-01 R/1/66     1
-#> 9      3     1   Argentina       1             0 1946-01-01 R/1/66     1
-#> 10     3     1       Haiti       1             0 1946-01-01 R/1/66     1
-#> ..   ...   ...         ...     ...           ...        ...    ...   ...
-#> Variables not shown: para <dbl>, short <chr>, descr <chr>.
+#> Error in eval(expr, envir, enclos): object 'joined' not found
 ```
 
 One could then count how often each country votes "yes" on a resolution in each year:
@@ -137,25 +81,11 @@ library(lubridate)
 by_country_year <- joined %>%
   group_by(year = year(date), country) %>%
   summarize(votes = n(),
-            percent_yes = mean(vote == 1))
+            percent_yes = mean(vote == "yes"))
+#> Error in eval(expr, envir, enclos): object 'joined' not found
 
 by_country_year
-#> Source: local data frame [9,496 x 4]
-#> Groups: year [?]
-#> 
-#>     year                         country votes percent_yes
-#>    <dbl>                           <chr> <int>       <dbl>
-#> 1   1946                     Afghanistan    17   0.4117647
-#> 2   1946                       Argentina    43   0.6976744
-#> 3   1946                       Australia    43   0.5581395
-#> 4   1946                         Belarus    43   0.4418605
-#> 5   1946                         Belgium    43   0.6046512
-#> 6   1946 Bolivia, Plurinational State of    43   0.6976744
-#> 7   1946                          Brazil    43   0.6046512
-#> 8   1946                          Canada    42   0.6428571
-#> 9   1946                           Chile    43   0.6046512
-#> 10  1946                        Colombia    42   0.3095238
-#> ..   ...                             ...   ...         ...
+#> Error in eval(expr, envir, enclos): object 'by_country_year' not found
 ```
 
 After which this can be visualized for one or more countries:
@@ -173,9 +103,8 @@ by_country_year %>%
   ggplot(aes(year, percent_yes, color = country)) +
   geom_line() +
   ylab("% of votes that are 'Yes'")
+#> Error in eval(expr, envir, enclos): object 'by_country_year' not found
 ```
-
-![plot of chunk by_country_year_plot](README-by_country_year_plot-1.png)
 
 ### Code of Conduct
 
