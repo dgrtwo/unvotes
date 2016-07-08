@@ -8,9 +8,9 @@ Description: Historical voting data of the United Nations General Assembly. This
     topic classifications for each vote.
 License: MIT + file LICENSE
 LazyData: TRUE
-URL: http://github.com/dgrtwo/ungavotes
+URL: http://github.com/dgrtwo/unvotes
 VignetteBuilder: knitr
-BugReports: http://github.com/dgrtwo/ungavotes/issues
+BugReports: http://github.com/dgrtwo/unvotes/issues
 Depends: R (>= 2.10)
 Suggests:
     knitr,

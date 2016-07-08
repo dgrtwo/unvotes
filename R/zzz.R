@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("If you use data from the ungavotes package, ",
+  packageStartupMessage("If you use data from the unvotes package, ",
                         "please cite the following:\n\n",
                         'Erik Voeten "Data and Analyses of Voting in the UN General Assembly" ',
                         "Routledge Handbook of International Organization, ",

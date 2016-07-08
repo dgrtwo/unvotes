@@ -1,4 +1,4 @@
-This is a data package with three datasets, along with a vignette and documentation.
+This is a simple data package with three datasets, along with a vignette and documentation.
 
 ## Test environments
 * local OS X install, R 3.3.0
