@@ -6,3 +6,4 @@
 README-cache/
 data-raw
 ^\.travis\.yml$
+^cran-comments\.md$
