@@ -4,13 +4,15 @@ library(countrycode)
 library(tidyr)
 library(devtools)
 
+vlevels <- c("yes", "abstain", "no")
+
 load("data-raw/RawVotingdata.RData")
 un_votes <- x %>%
   tbl_df() %>%
   filter(vote <= 3) %>%
   mutate(country = countrycode(ccode, "cown", "country.name")) %>%
   select(rcid, country, vote) %>%
-  mutate(vote = factor(c("yes", "abstain", "no")[vote]))
+  mutate(vote = factor(vlevels[vote], levels = vlevels))
 
 devtools::use_data(un_votes, overwrite = TRUE)
 
@@ -29,12 +31,12 @@ un_roll_call_issues <- descriptions_raw %>%
   gather(short_name, value, me:ec) %>%
   filter(value == 1) %>%
   select(-value) %>%
-  mutate(issue = recode(short_name,
-                        me = "Palestinian conflict",
-                        nu = "Nuclear weapons and nuclear material",
-                        co = "Colonialism",
-                        hr = "Human rights",
-                        ec = "Economic development",
-                        di = "Arms control and disarmament"))
+  mutate(issue = plyr::revalue(short_name,
+                               c(me = "Palestinian conflict",
+                                 nu = "Nuclear weapons and nuclear material",
+                                 co = "Colonialism",
+                                 hr = "Human rights",
+                                 ec = "Economic development",
+                                 di = "Arms control and disarmament")))
 
 devtools::use_data(un_roll_call_issues, overwrite = TRUE)
