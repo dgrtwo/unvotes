@@ -6,7 +6,7 @@ library(devtools)
 
 vlevels <- c("yes", "abstain", "no")
 
-load("data-raw/RawVotingdata.RData")
+load("data-raw/UNVotesPublished.RData")
 un_votes <- x %>%
   tbl_df() %>%
   filter(vote <= 3) %>%
@@ -16,19 +16,21 @@ un_votes <- x %>%
 
 devtools::use_data(un_votes, overwrite = TRUE)
 
-descriptions_raw <- read_excel("data-raw/descriptionsnew.xls")
+descriptions_raw <- read_excel("data-raw/descriptions1-70latestversion.xls")
 # transcription error in Excel
-descriptions_raw$ec[1483] <- 0
+descriptions_raw$ec[90] <- 0
 
 un_roll_calls <- descriptions_raw %>%
   select(rcid, session, importantvote:descr) %>%
-  mutate(date = as.Date(date))
+  mutate(date = as.Date(date)) %>%
+  arrange(rcid)
 
 devtools::use_data(un_roll_calls, overwrite = TRUE)
 
 un_roll_call_issues <- descriptions_raw %>%
   select(rcid, me:ec) %>%
   gather(short_name, value, me:ec) %>%
+  mutate(value = as.numeric(value)) %>%
   filter(value == 1) %>%
   select(-value) %>%
   mutate(issue = plyr::revalue(short_name,
