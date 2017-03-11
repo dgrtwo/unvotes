@@ -1,7 +1,7 @@
 Package: unvotes
 Type: Package
 Title: United Nations General Assembly Voting Data
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: person("David", "Robinson", email = "admiral.david@gmail.com", role = c("aut", "cre"))
 Description: Historical voting data of the United Nations General Assembly. This
     includes votes for each country in each roll call, as well as descriptions and
@@ -22,4 +22,4 @@ Suggests:
     devtools,
     rmarkdown,
     ggplot2
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

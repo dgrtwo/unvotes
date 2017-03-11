@@ -65,4 +65,3 @@ votes_issues \%>\%
 
 }
 \keyword{datasets}
-

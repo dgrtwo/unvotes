@@ -27,4 +27,3 @@ Issue (topic) classifications of roll call votes of the United Nations
 General Assembly. Many votes had no topic, and some have more than one.
 }
 \keyword{datasets}
-
