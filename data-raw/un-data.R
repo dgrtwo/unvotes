@@ -22,7 +22,8 @@ descriptions_raw$ec[90] <- 0
 
 un_roll_calls <- descriptions_raw %>%
   select(rcid, session, importantvote:descr) %>%
-  mutate(date = as.Date(date)) %>%
+  mutate(rcid = as.integer(rcid),
+         date = as.Date(date)) %>%
   arrange(rcid)
 
 devtools::use_data(un_roll_calls, overwrite = TRUE)
@@ -30,7 +31,8 @@ devtools::use_data(un_roll_calls, overwrite = TRUE)
 un_roll_call_issues <- descriptions_raw %>%
   select(rcid, me:ec) %>%
   gather(short_name, value, me:ec) %>%
-  mutate(value = as.numeric(value)) %>%
+  mutate(rcid = as.integer(rcid),
+         value = as.numeric(value)) %>%
   filter(value == 1) %>%
   select(-value) %>%
   mutate(issue = plyr::revalue(short_name,

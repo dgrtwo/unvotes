@@ -41,21 +41,20 @@ library(dplyr)
 library(unvotes)
 
 un_votes
-#> Source: local data frame [711,275 x 3]
-#> 
-#>     rcid     country    vote
-#>    <dbl>       <chr>  <fctr>
-#> 1      3       Egypt abstain
-#> 2      3    Honduras     yes
-#> 3      3  Costa Rica     yes
-#> 4      3 El Salvador     yes
-#> 5      3      France      no
-#> 6      3     Uruguay     yes
-#> 7      3       Chile     yes
-#> 8      3     Ecuador     yes
-#> 9      3   Argentina     yes
-#> 10     3       Haiti     yes
-#> ..   ...         ...     ...
+#> # A tibble: 738,764 × 3
+#>     rcid                  country   vote
+#>    <int>                    <chr> <fctr>
+#> 1      3 United States of America    yes
+#> 2      3                   Canada     no
+#> 3      3                     Cuba    yes
+#> 4      3                    Haiti    yes
+#> 5      3       Dominican Republic    yes
+#> 6      3                   Mexico    yes
+#> 7      3                Guatemala    yes
+#> 8      3                 Honduras    yes
+#> 9      3              El Salvador    yes
+#> 10     3                Nicaragua    yes
+#> # ... with 738,754 more rows
 ```
 
 The package also contains a dataset of information about each roll call vote, including the date, description, and relevant resolution that was voted on:
@@ -63,10 +62,9 @@ The package also contains a dataset of information about each roll call vote, in
 
 ```r
 un_roll_calls
-#> Source: local data frame [5,356 x 9]
-#> 
+#> # A tibble: 5,429 × 9
 #>     rcid session importantvote       date   unres amend  para
-#>    <dbl>   <dbl>         <dbl>     <date>   <chr> <dbl> <dbl>
+#>    <int>   <dbl>         <dbl>     <date>   <chr> <dbl> <dbl>
 #> 1      3       1             0 1946-01-01  R/1/66     1     0
 #> 2      4       1             0 1946-01-02  R/1/79     0     0
 #> 3      5       1             0 1946-01-04  R/1/98     0     0
@@ -77,8 +75,7 @@ un_roll_calls
 #> 8     10       1             0 1946-02-05 R/1/361     1     1
 #> 9     11       1             0 1946-02-05 R/1/376     0     0
 #> 10    12       1             0 1946-02-06 R/1/394     1     1
-#> ..   ...     ...           ...        ...     ...   ...   ...
-#> Variables not shown: short <chr>, descr <chr>.
+#> # ... with 5,419 more rows, and 2 more variables: short <chr>, descr <chr>
 ```
 
 Finally, the `un_roll_call_issues` dataset shows relationships betwen each vote and 6 issues:
@@ -86,33 +83,31 @@ Finally, the `un_roll_call_issues` dataset shows relationships betwen each vote 
 
 ```r
 un_roll_call_issues
-#> Source: local data frame [4,951 x 3]
-#> 
+#> # A tibble: 5,281 × 3
 #>     rcid short_name                issue
-#>    <dbl>      <chr>                <chr>
-#> 1     30         me Palestinian conflict
-#> 2     34         me Palestinian conflict
-#> 3     77         me Palestinian conflict
-#> 4   9002         me Palestinian conflict
-#> 5   9003         me Palestinian conflict
-#> 6   9004         me Palestinian conflict
-#> 7   9005         me Palestinian conflict
-#> 8   9006         me Palestinian conflict
-#> 9    128         me Palestinian conflict
-#> 10   129         me Palestinian conflict
-#> ..   ...        ...                  ...
+#>    <int>      <chr>                <chr>
+#> 1   3372         me Palestinian conflict
+#> 2   3658         me Palestinian conflict
+#> 3   3692         me Palestinian conflict
+#> 4   2901         me Palestinian conflict
+#> 5   3020         me Palestinian conflict
+#> 6   3217         me Palestinian conflict
+#> 7   3298         me Palestinian conflict
+#> 8   3429         me Palestinian conflict
+#> 9   3558         me Palestinian conflict
+#> 10  3625         me Palestinian conflict
+#> # ... with 5,271 more rows
 
 count(un_roll_call_issues, issue, sort = TRUE)
-#> Source: local data frame [6 x 2]
-#> 
+#> # A tibble: 6 × 2
 #>                                  issue     n
 #>                                  <chr> <int>
-#> 1                 Palestinian conflict  1047
-#> 2                          Colonialism   971
-#> 3                         Human rights   901
-#> 4         Arms control and disarmament   859
-#> 5 Nuclear weapons and nuclear material   712
-#> 6                 Economic development   461
+#> 1                 Palestinian conflict  1104
+#> 2                          Colonialism   991
+#> 3                         Human rights   986
+#> 4         Arms control and disarmament   956
+#> 5 Nuclear weapons and nuclear material   762
+#> 6                 Economic development   482
 ```
 
 (Use `help()` to get information and documentation about each dataset).
@@ -129,22 +124,21 @@ joined <- un_votes %>%
   inner_join(un_roll_calls, by = "rcid")
 
 joined
-#> Source: local data frame [711,275 x 11]
-#> 
-#>     rcid     country    vote session importantvote       date  unres amend
-#>    <dbl>       <chr>  <fctr>   <dbl>         <dbl>     <date>  <chr> <dbl>
-#> 1      3       Egypt abstain       1             0 1946-01-01 R/1/66     1
-#> 2      3    Honduras     yes       1             0 1946-01-01 R/1/66     1
-#> 3      3  Costa Rica     yes       1             0 1946-01-01 R/1/66     1
-#> 4      3 El Salvador     yes       1             0 1946-01-01 R/1/66     1
-#> 5      3      France      no       1             0 1946-01-01 R/1/66     1
-#> 6      3     Uruguay     yes       1             0 1946-01-01 R/1/66     1
-#> 7      3       Chile     yes       1             0 1946-01-01 R/1/66     1
-#> 8      3     Ecuador     yes       1             0 1946-01-01 R/1/66     1
-#> 9      3   Argentina     yes       1             0 1946-01-01 R/1/66     1
-#> 10     3       Haiti     yes       1             0 1946-01-01 R/1/66     1
-#> ..   ...         ...     ...     ...           ...        ...    ...   ...
-#> Variables not shown: para <dbl>, short <chr>, descr <chr>.
+#> # A tibble: 738,764 × 11
+#>     rcid                  country   vote session importantvote       date
+#>    <int>                    <chr> <fctr>   <dbl>         <dbl>     <date>
+#> 1      3 United States of America    yes       1             0 1946-01-01
+#> 2      3                   Canada     no       1             0 1946-01-01
+#> 3      3                     Cuba    yes       1             0 1946-01-01
+#> 4      3                    Haiti    yes       1             0 1946-01-01
+#> 5      3       Dominican Republic    yes       1             0 1946-01-01
+#> 6      3                   Mexico    yes       1             0 1946-01-01
+#> 7      3                Guatemala    yes       1             0 1946-01-01
+#> 8      3                 Honduras    yes       1             0 1946-01-01
+#> 9      3              El Salvador    yes       1             0 1946-01-01
+#> 10     3                Nicaragua    yes       1             0 1946-01-01
+#> # ... with 738,754 more rows, and 5 more variables: unres <chr>,
+#> #   amend <dbl>, para <dbl>, short <chr>, descr <chr>
 ```
 
 One could then count how often each country votes "yes" on a resolution in each year:
@@ -159,22 +153,22 @@ by_country_year <- joined %>%
             percent_yes = mean(vote == "yes"))
 
 by_country_year
-#> Source: local data frame [9,496 x 4]
+#> Source: local data frame [9,689 x 4]
 #> Groups: year [?]
 #> 
-#>     year                         country votes percent_yes
-#>    <dbl>                           <chr> <int>       <dbl>
-#> 1   1946                     Afghanistan    17   0.4117647
-#> 2   1946                       Argentina    43   0.6976744
-#> 3   1946                       Australia    43   0.5581395
-#> 4   1946                         Belarus    43   0.4418605
-#> 5   1946                         Belgium    43   0.6046512
-#> 6   1946 Bolivia, Plurinational State of    43   0.6976744
-#> 7   1946                          Brazil    43   0.6046512
-#> 8   1946                          Canada    42   0.6428571
-#> 9   1946                           Chile    43   0.6046512
-#> 10  1946                        Colombia    42   0.3095238
-#> ..   ...                             ...   ...         ...
+#>     year                          country votes percent_yes
+#>    <dbl>                            <chr> <int>       <dbl>
+#> 1   1946                      Afghanistan    17   0.4117647
+#> 2   1946                        Argentina    43   0.6976744
+#> 3   1946                        Australia    43   0.5581395
+#> 4   1946                          Belarus    43   0.4418605
+#> 5   1946                          Belgium    43   0.6046512
+#> 6   1946 Bolivia (Plurinational State of)    43   0.6976744
+#> 7   1946                           Brazil    43   0.6046512
+#> 8   1946                           Canada    42   0.6428571
+#> 9   1946                            Chile    43   0.6046512
+#> 10  1946                         Colombia    42   0.3095238
+#> # ... with 9,679 more rows
 ```
 
 After which this can be visualized for one or more countries:
@@ -211,6 +205,7 @@ joined %>%
   geom_point() +
   geom_smooth(se = FALSE) +
   facet_wrap(~ issue)
+#> Error: Faceting variables must have at least one value
 ```
 
 ![plot of chunk issue_plot](README-issue_plot-1.png)
