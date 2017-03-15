@@ -10,8 +10,9 @@ load("data-raw/UNVotesPublished.RData")
 un_votes <- x %>%
   tbl_df() %>%
   filter(vote <= 3) %>%
-  mutate(country = countrycode(ccode, "cown", "country.name")) %>%
-  select(rcid, country, vote) %>%
+  mutate(country = countrycode(ccode, "cown", "country.name"),
+         country_code = countrycode(ccode, "cown", "iso2c")) %>%
+  select(rcid, country, country_code, vote) %>%
   mutate(vote = factor(vlevels[vote], levels = vlevels))
 
 devtools::use_data(un_votes, overwrite = TRUE)

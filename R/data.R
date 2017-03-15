@@ -8,13 +8,14 @@
 #' \describe{
 #'   \item{rcid}{The roll call id; used to join with \code{\link{un_roll_calls}}
 #'   and \code{\link{un_roll_call_issues}}}
+#'   \item{country}{Country name, by official English short name}
+#'   \item{country_code}{2-character ISO country code}
 #'   \item{vote}{Vote result as a factor of yes/abstain/no}
-#'   \item{country}{Country name, by official English short name (ISO)}
 #' }
 #'
 #' @details The original data included cases where a country was absent
 #' or was not yet a member. In this dataset these were filtered out to
-#' include only votes of Yes, Abstain, and No
+#' include only votes of Yes, Abstain, and No.
 #'
 #' Country name can be converted to other unique country identifiers
 #' (such as 2-character or 3-character ISO codes) using the

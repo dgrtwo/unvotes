@@ -41,19 +41,19 @@ library(dplyr)
 library(unvotes)
 
 un_votes
-#> # A tibble: 738,764 × 3
-#>     rcid                  country   vote
-#>    <int>                    <chr> <fctr>
-#> 1      3 United States of America    yes
-#> 2      3                   Canada     no
-#> 3      3                     Cuba    yes
-#> 4      3                    Haiti    yes
-#> 5      3       Dominican Republic    yes
-#> 6      3                   Mexico    yes
-#> 7      3                Guatemala    yes
-#> 8      3                 Honduras    yes
-#> 9      3              El Salvador    yes
-#> 10     3                Nicaragua    yes
+#> # A tibble: 738,764 × 4
+#>     rcid                  country country_code   vote
+#>    <int>                    <chr>        <chr> <fctr>
+#> 1      3 United States of America           US    yes
+#> 2      3                   Canada           CA     no
+#> 3      3                     Cuba           CU    yes
+#> 4      3                    Haiti           HT    yes
+#> 5      3       Dominican Republic           DO    yes
+#> 6      3                   Mexico           MX    yes
+#> 7      3                Guatemala           GT    yes
+#> 8      3                 Honduras           HN    yes
+#> 9      3              El Salvador           SV    yes
+#> 10     3                Nicaragua           NI    yes
 #> # ... with 738,754 more rows
 ```
 
@@ -124,21 +124,22 @@ joined <- un_votes %>%
   inner_join(un_roll_calls, by = "rcid")
 
 joined
-#> # A tibble: 738,764 × 11
-#>     rcid                  country   vote session importantvote       date
-#>    <int>                    <chr> <fctr>   <dbl>         <dbl>     <date>
-#> 1      3 United States of America    yes       1             0 1946-01-01
-#> 2      3                   Canada     no       1             0 1946-01-01
-#> 3      3                     Cuba    yes       1             0 1946-01-01
-#> 4      3                    Haiti    yes       1             0 1946-01-01
-#> 5      3       Dominican Republic    yes       1             0 1946-01-01
-#> 6      3                   Mexico    yes       1             0 1946-01-01
-#> 7      3                Guatemala    yes       1             0 1946-01-01
-#> 8      3                 Honduras    yes       1             0 1946-01-01
-#> 9      3              El Salvador    yes       1             0 1946-01-01
-#> 10     3                Nicaragua    yes       1             0 1946-01-01
-#> # ... with 738,754 more rows, and 5 more variables: unres <chr>,
-#> #   amend <dbl>, para <dbl>, short <chr>, descr <chr>
+#> # A tibble: 738,764 × 12
+#>     rcid                  country country_code   vote session
+#>    <int>                    <chr>        <chr> <fctr>   <dbl>
+#> 1      3 United States of America           US    yes       1
+#> 2      3                   Canada           CA     no       1
+#> 3      3                     Cuba           CU    yes       1
+#> 4      3                    Haiti           HT    yes       1
+#> 5      3       Dominican Republic           DO    yes       1
+#> 6      3                   Mexico           MX    yes       1
+#> 7      3                Guatemala           GT    yes       1
+#> 8      3                 Honduras           HN    yes       1
+#> 9      3              El Salvador           SV    yes       1
+#> 10     3                Nicaragua           NI    yes       1
+#> # ... with 738,754 more rows, and 7 more variables: importantvote <dbl>,
+#> #   date <date>, unres <chr>, amend <dbl>, para <dbl>, short <chr>,
+#> #   descr <chr>
 ```
 
 One could then count how often each country votes "yes" on a resolution in each year:
@@ -178,7 +179,7 @@ After which this can be visualized for one or more countries:
 library(ggplot2)
 theme_set(theme_bw())
 
-countries <- c("United States", "United Kingdom", "India", "France")
+countries <- c("United States of America", "India", "France")
 
 # there were fewer votes in 2013
 by_country_year %>%
@@ -195,7 +196,7 @@ Similarly, we could look at how the voting record of the United States has chang
 
 ```r
 joined %>%
-  filter(country == "United States") %>%
+  filter(country == "United States of America") %>%
   inner_join(un_roll_call_issues, by = "rcid") %>%
   group_by(year = year(date), issue) %>%
   summarize(votes = n(),
@@ -205,7 +206,6 @@ joined %>%
   geom_point() +
   geom_smooth(se = FALSE) +
   facet_wrap(~ issue)
-#> Error: Faceting variables must have at least one value
 ```
 
 ![plot of chunk issue_plot](README-issue_plot-1.png)
