@@ -4,7 +4,8 @@
 \name{un_roll_calls}
 \alias{un_roll_calls}
 \title{Data on each roll call of the United Nations General Assembly}
-\format{A data frame (specifically a tbl_df) with one row
+\format{
+A data frame (specifically a tbl_df) with one row
 for each roll call vote, and the following columns:
 \describe{
   \item{rcid}{The roll call id; used to join with \code{\link{un_votes}}
@@ -22,7 +23,8 @@ for each roll call vote, and the following columns:
   coded only until 1985}
   \item{short}{Short description}
   \item{descr}{Longer description}
-}}
+}
+}
 \source{
 Erik Voeten "Data and Analyses of Voting in the UN General Assembly"
  Routledge Handbook of International Organization, edited by Bob Reinalda

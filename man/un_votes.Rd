@@ -4,7 +4,8 @@
 \name{un_votes}
 \alias{un_votes}
 \title{United Nations General Assembly voting data by country and roll call}
-\format{A data frame (specifically a tbl_df) with one row
+\format{
+A data frame (specifically a tbl_df) with one row
 for each country-vote pair, and the following columns:
 \describe{
   \item{rcid}{The roll call id; used to join with \code{\link{un_roll_calls}}
@@ -12,7 +13,8 @@ for each country-vote pair, and the following columns:
   \item{country}{Country name, by official English short name}
   \item{country_code}{2-character ISO country code}
   \item{vote}{Vote result as a factor of yes/abstain/no}
-}}
+}
+}
 \source{
 Erik Voeten "Data and Analyses of Voting in the UN General Assembly"
  Routledge Handbook of International Organization, edited by Bob Reinalda
