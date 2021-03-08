@@ -22,7 +22,7 @@ un_votes <- completeVotes %>%
       country == "Yemen People's Republic" ~ "YD",
       TRUE ~ country_code
     ),
-    country = if_else(Countryname == "German Federal Republic", "Federal Republic of Germany", country)
+    country = if_else(!is.na(Countryname) & Countryname == "German Federal Republic", "Federal Republic of Germany", country)
   ) %>%
   select(rcid, country, country_code, vote) %>%
   mutate(vote = as.character(vote)) %>%
