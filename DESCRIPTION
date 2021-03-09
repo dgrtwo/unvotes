@@ -1,7 +1,7 @@
 Package: unvotes
 Type: Package
 Title: United Nations General Assembly Voting Data
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(person("David", "Robinson", email = "admiral.david@gmail.com", role = c("aut", "cre")),
              person("Nicholas", "Goguen-Compagnoni", email = "n.goguen-compagnoni@sms.ed.ac.uk", role = "ctb"))
 Description: Historical voting data of the United Nations General Assembly. This
