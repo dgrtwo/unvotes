@@ -4,7 +4,8 @@
 \name{un_roll_call_issues}
 \alias{un_roll_call_issues}
 \title{Data on the issue of each roll call of the United Nations General Assembly}
-\format{A data frame (specifically a tbl_df) with one row
+\format{
+A data frame (specifically a tbl_df) with one row
 for each pair of a roll call vote and an issue describing that vote.
 Contains the following columns:
 \describe{
@@ -12,7 +13,8 @@ Contains the following columns:
   and \code{\link{un_roll_calls}}}
   \item{short_name}{Two-letter issue codes}
   \item{issue}{Descriptive issue name}
-}}
+}
+}
 \source{
 Erik Voeten "Data and Analyses of Voting in the UN General Assembly"
  Routledge Handbook of International Organization, edited by Bob Reinalda
